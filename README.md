@@ -80,14 +80,13 @@ These run in headless Chromium on this computer. A phone-sized window is not a r
 
 ## Publishing
 
-Not published yet. The plan, matching ARC: a separate GitHub repository (for example `DanPiress/portfolio`) and
-its own Netlify site.
+Live at https://daniel-pires.netlify.app (Netlify project `daniel-pires`), separate from ARC's site and repository.
+Every push to `main` redeploys. `netlify.toml` supplies the build command, the `dist` folder and Node 24.
 
-1. Create an empty repository on GitHub and push this one to it.
-2. Netlify → Add new site → Import from GitHub → that repository. `netlify.toml` supplies the build command, the
-   `dist` folder and Node 24. New Netlify sites start **private**: share menu → Public → **Make public**.
-3. Put the address in `site.url` (`src/content.ts`), make the share image (`public/og/share.jpg`, 1200×630) and
-   push. The canonical and share tags then appear.
+- `site.url` in `src/content.ts` drives the canonical link, `og:url` and `og:image`.
+- Share image: edit `scripts/share-image.html`, then run `python scripts/render_share_image.py` and
+  `node scripts/share-to-jpg.mjs` to rewrite `public/og/share.jpg` (1200×630).
+- New Netlify sites start **private**: share menu → Public → **Make public**.
 
 `/work/arc` and `/work/arc/` both work on Netlify without rewrite rules, because the page is a real file. Unknown
 addresses get `404.html`. `public/_headers` caches hashed assets for a year and screenshots for a week, and sends

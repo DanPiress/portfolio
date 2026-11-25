@@ -11,7 +11,7 @@ export const fact = (text: string): Drafty => ({ text });
 export const site = {
   /** Public address once deployed, without a trailing slash, e.g. "https://example.netlify.app". Empty = not known yet:
    *  canonical, og:url and og:image tags are left out until it is set. */
-  url: "",
+  url: "https://daniel-pires.netlify.app",
   name: "Daniel Pires",
   /** Wordmark in the header. */
   mark: "Daniel Pires",

@@ -9,6 +9,7 @@ content still wrapped in `draft()` (none as of 25 November 2026).
 - Public email: danielpires2107@gmail.com (Contact section, `mailto:` link).
 - LinkedIn: https://www.linkedin.com/in/daniel-pires-b99978219/ (Contact section and footer).
 - GitHub: https://github.com/DanPiress
+- Portfolio address: https://daniel-pires.netlify.app (canonical, share tags and `public/og/share.jpg` set).
 - Roles: junior web and front-end development, with game development as a secondary interest (About).
 - ARC AI credit: "Built with Claude Code, with OpenAI Codex supporting planning, visual review, testing and targeted
   implementation fixes." (homepage project entry and case study).
