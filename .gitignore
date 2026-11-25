@@ -1,0 +1,25 @@
+node_modules/
+dist/
+dist-ssr/
+*.log
+
+# Secrets and host CLI state: never commit keys. The site needs none; anything in a VITE_ variable ships to visitors.
+.env
+.env.*
+*.pem
+*.key
+.netlify/
+.vercel/
+.wrangler/
+.claude/
+
+# Local check output and working files
+qa/screenshots/
+qa/logs/
+work/
+__pycache__/
+*.pyc
+
+# The working brief and the CV/LinkedIn drafts stay local
+PROJECT-BRIEF.txt
+docs/CAREER-DRAFTS.md

@@ -1,0 +1,224 @@
+{
+  "experience": {
+    "source": "docs/screenshots/desktop-0-stage.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/experience-1440.webp",
+        "kb": 44
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/experience-960.webp",
+        "kb": 27
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/experience-640.webp",
+        "kb": 16
+      }
+    ]
+  },
+  "experience-phone": {
+    "source": "docs/screenshots/phone-0-stage.png",
+    "width": 780,
+    "height": 1688,
+    "files": [
+      {
+        "w": 390,
+        "file": "/media/arc/experience-phone-390.webp",
+        "kb": 22
+      },
+      {
+        "w": 260,
+        "file": "/media/arc/experience-phone-260.webp",
+        "kb": 14
+      }
+    ]
+  },
+  "layers": {
+    "source": "docs/screenshots/layers-desktop.png",
+    "width": 1440,
+    "height": 862,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/layers-1440.webp",
+        "kb": 38
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/layers-960.webp",
+        "kb": 22
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/layers-640.webp",
+        "kb": 12
+      }
+    ]
+  },
+  "configurator": {
+    "source": "docs/screenshots/desktop-4-config.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/configurator-1440.webp",
+        "kb": 35
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/configurator-960.webp",
+        "kb": 21
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/configurator-640.webp",
+        "kb": 12
+      }
+    ]
+  },
+  "macro-after": {
+    "source": "qa/screenshots/live/desktop-1-stage.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/macro-after-1440.webp",
+        "kb": 30
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/macro-after-960.webp",
+        "kb": 18
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/macro-after-640.webp",
+        "kb": 11
+      }
+    ]
+  },
+  "controls": {
+    "source": "qa/screenshots/live/desktop-2-stage.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 960,
+        "file": "/media/arc/controls-960.webp",
+        "kb": 28
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/controls-640.webp",
+        "kb": 16
+      }
+    ]
+  },
+  "shoulders": {
+    "source": "qa/screenshots/live/desktop-3-stage.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 960,
+        "file": "/media/arc/shoulders-960.webp",
+        "kb": 26
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/shoulders-640.webp",
+        "kb": 15
+      }
+    ]
+  },
+  "config-phone": {
+    "source": "qa/screenshots/live/phone-4-config.png",
+    "width": 780,
+    "height": 1688,
+    "files": [
+      {
+        "w": 390,
+        "file": "/media/arc/config-phone-390.webp",
+        "kb": 18
+      },
+      {
+        "w": 260,
+        "file": "/media/arc/config-phone-260.webp",
+        "kb": 11
+      }
+    ]
+  },
+  "cart": {
+    "source": "qa/screenshots/interactions/desktop-cart.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/cart-1440.webp",
+        "kb": 33
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/cart-960.webp",
+        "kb": 19
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/cart-640.webp",
+        "kb": 11
+      }
+    ]
+  },
+  "v1-opening": {
+    "source": "qa/screenshots/before-redesign/desktop-0-stage.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/v1-opening-1440.webp",
+        "kb": 31
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/v1-opening-960.webp",
+        "kb": 18
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/v1-opening-640.webp",
+        "kb": 10
+      }
+    ]
+  },
+  "macro-before": {
+    "source": "qa/screenshots/v5/desktop-1-stage.png",
+    "width": 1440,
+    "height": 900,
+    "files": [
+      {
+        "w": 1440,
+        "file": "/media/arc/macro-before-1440.webp",
+        "kb": 24
+      },
+      {
+        "w": 960,
+        "file": "/media/arc/macro-before-960.webp",
+        "kb": 15
+      },
+      {
+        "w": 640,
+        "file": "/media/arc/macro-before-640.webp",
+        "kb": 9
+      }
+    ]
+  }
+}
