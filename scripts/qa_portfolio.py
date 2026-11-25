@@ -292,6 +292,15 @@ with sync_playwright() as p:
     check("Phone: Playtest Desk card has its case study, live demo and repository links",
           entry(page, "playtest-desk").locator(".entry-links a").count() == 3)
     check("Phone: homepage has no horizontal overflow", no_overflow(page))
+    check("Phone: no homepage errors", not errs, str(errs))
+    ctx.close()
+
+    # Isolate normal link taps from CDP's synthetic swipe state: Chromium can suppress the first
+    # compatibility click after those dispatched gestures, even when the link receives touchend.
+    ctx = b.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True)
+    page = ctx.new_page()
+    errs = watch(page)
+    page.goto(BASE + "/", wait_until="networkidle")
     phone_case_link = entry(page, "playtest-desk").locator(f"a[href='{PLAYTEST_PATH}']")
     phone_case_link.scroll_into_view_if_needed()
     phone_case_link.tap()
@@ -302,7 +311,7 @@ with sync_playwright() as p:
     toc_heights = page.locator(".case-toc a").evaluate_all("links => links.map(a => a.getBoundingClientRect().height)")
     check("Phone: Playtest Desk section navigation has 44 px touch targets",
           len(toc_heights) >= len(PLAYTEST_ANCHORS) and min(toc_heights) >= 44, str(toc_heights))
-    check("Phone: no page errors", not errs, str(errs))
+    check("Phone: no errors while opening the Playtest Desk case study", not errs, str(errs))
     ctx.close()
 
     # ---------- Reduced motion ----------
