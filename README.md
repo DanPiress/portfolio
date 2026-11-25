@@ -1,8 +1,8 @@
 # Daniel Pires: portfolio
 
-A personal portfolio with one finished project presented in full, ARC, plus its case study at `/work/arc/`.
-Stack: React 19, TypeScript and Vite. Both pages are prerendered to static HTML at build time, so they read correctly
-before JavaScript runs and any static host can serve them. There is no 3D, no animation library and no backend.
+A personal portfolio featuring [ARC](https://daniel-pires.netlify.app/work/arc/) and
+[Playtest Desk](https://daniel-pires.netlify.app/work/playtest-desk/). React, TypeScript and Vite prerender each page
+to static HTML so it reads correctly before JavaScript runs.
 
 ## Run it
 
@@ -20,25 +20,26 @@ The build lists every piece of content still marked as a draft. See [CONTENT-CHE
 
 | What | File |
 | --- | --- |
-| Name, headline, intro, links (email, LinkedIn, CV), About, upcoming work, How I work | `src/content.ts` |
+| Name, headline, intro, links (email, LinkedIn, CV), About, How I work | `src/content.ts` |
 | Projects (title, brief, role, AI contribution, links, spotlight views and captions) | `projects` in `src/content.ts` |
 | ARC case study words and figures | `src/data/arc-case.ts` |
+| Playtest Desk case study | `src/pages/PlaytestCase.tsx` |
 | Page titles and descriptions | `src/pages.tsx` |
 | Public address (enables canonical, `og:url` and `og:image`) | `site.url` in `src/content.ts` |
 | Which ARC screenshots are copied, and their sizes | `scripts/prepare-media.mjs` → `public/media/arc/`, `src/data/media.json` |
+| Playtest Desk screenshots and share image | `public/media/playtest-desk/`, `src/data/playtest-media.json` |
 | Colours, type, layout | `src/styles.css` (tokens at the top) |
 
 Drafts: wrap an unconfirmed sentence in `draft("...")` and it renders with a visible "Draft" marker and is listed by
 the build. Use `fact("...")` once it is confirmed.
 
-**Adding a project:** add an entry to `projects` with its own `views` (each needs a screenshot id from
-`prepare-media.mjs`) and a media entry in `ENTRY_MEDIA` (`src/components/ProjectEntry.tsx`). The homepage then
-shows it in Selected work. With more than one project, the spotlight should become a project selector in the same
-card style (planned, not built).
+Add a project to `projects` and give it a screenshot entry in `ENTRY_MEDIA` (`src/components/ProjectEntry.tsx`)
+to show it in Selected work. The homepage spotlight features the first project in `projects`.
 
 ## How it is put together
 
-- `index.html`, `work/arc/index.html`, `404.html`: page shells with `<!--head-->` and `<!--app-->` placeholders.
+- `index.html`, `work/arc/index.html`, `work/playtest-desk/index.html`, `404.html`: page shells with `<!--head-->`
+  and `<!--app-->` placeholders.
 - `src/boot.tsx`: hydrates the prerendered page in production, or renders it in the dev server.
 - `src/entry-server.tsx` + `scripts/prerender.mjs`: render each page to HTML and write its title, description and
   share tags into `dist/`.
@@ -64,7 +65,7 @@ card style (planned, not built).
 Needs Python with Playwright (`pip install playwright`, then `playwright install chromium`).
 
 ```powershell
-python scripts\qa_portfolio.py http://localhost:4180         # functional checks (59)
+python scripts\qa_portfolio.py http://localhost:4180         # functional checks
 python scripts\qa_screens.py http://localhost:4180 final     # screenshots at 5 sizes + overflow/errors
 ```
 
@@ -88,9 +89,9 @@ Every push to `main` redeploys. `netlify.toml` supplies the build command, the `
   `node scripts/share-to-jpg.mjs` to rewrite `public/og/share.jpg` (1200×630).
 - New Netlify sites start **private**: share menu → Public → **Make public**.
 
-`/work/arc` and `/work/arc/` both work on Netlify without rewrite rules, because the page is a real file. Unknown
-addresses get `404.html`. `public/_headers` caches hashed assets for a year and screenshots for a week, and sends
-basic security headers. The site uses no API keys or environment variables.
+The case study pages are real files, so `/work/arc/` and `/work/playtest-desk/` work on direct visits and reloads.
+Unknown addresses get `404.html`. `public/_headers` caches hashed assets for a year and screenshots for a week,
+and sends basic security headers.
 
 ## Licence and media
 

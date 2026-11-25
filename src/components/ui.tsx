@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import media from "../data/media.json";
+import arcMedia from "../data/media.json";
+import playtestMedia from "../data/playtest-media.json";
 import { links, site, type Drafty } from "../content";
+
+const media = { ...arcMedia, ...playtestMedia };
 
 export type MediaId = keyof typeof media;
 

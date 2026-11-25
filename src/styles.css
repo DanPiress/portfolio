@@ -560,6 +560,11 @@ p.draft {
   gap: 40px;
   align-items: start;
 }
+.entry + .entry {
+  margin-top: clamp(48px, 7vw, 88px);
+  padding-top: clamp(48px, 7vw, 88px);
+  border-top: 1px solid var(--line);
+}
 .entry-media {
   position: relative;
   margin-bottom: 28px;
@@ -629,44 +634,6 @@ p.draft {
   gap: 8px 22px;
   margin-top: 26px;
 }
-.bench {
-  margin-top: clamp(56px, 7vw, 88px);
-  padding: 22px 24px;
-  border-radius: 16px;
-  background: var(--paper-2);
-  border: 1px solid var(--line);
-}
-.bench-title {
-  font: 700 1.125rem/1.2 var(--display);
-}
-.bench-list {
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
-}
-.bench-item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 12px;
-  color: var(--slate);
-}
-.bench-item > :last-child {
-  flex-basis: 100%;
-}
-.bench-name {
-  font-weight: 700;
-  color: var(--navy);
-}
-.bench-status {
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: var(--ice);
-  color: var(--navy);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
 /* How I work (dark) */
 .process {
   background: var(--navy);
@@ -790,7 +757,7 @@ p.draft {
   max-width: 60ch;
 }
 
-/* ---------- ARC case study ---------- */
+/* ---------- Case studies ---------- */
 .case-hero {
   padding: 22px 0 clamp(56px, 7vw, 88px);
 }
@@ -944,6 +911,17 @@ p.draft {
 .prose {
   max-width: 64ch;
   font-size: 1.0938rem;
+}
+.case-figure .img {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.case-figure figcaption {
+  margin-top: 10px;
+  color: var(--slate);
+  font-size: 0.9375rem;
+  max-width: 70ch;
 }
 .h3 {
   margin-top: 8px;

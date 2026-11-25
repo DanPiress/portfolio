@@ -1,23 +1,9 @@
-import type { ReactNode } from "react";
 import { arcCase as c, type Shot } from "../data/arc-case";
 import { projects } from "../content";
+import { CaseSection } from "../components/CaseSection";
 import { D, Footer, Header, Img, Out } from "../components/ui";
 
 const arc = projects.find((p) => p.slug === "arc")!;
-
-/** A numbered-free case-study section: heading on the left on wide screens, content on the right. */
-function CaseSection({ id, title, children, tone }: { id: string; title: string; children: ReactNode; tone?: "dark" }) {
-  return (
-    <section className={`case-section${tone ? ` is-${tone}` : ""}`} id={id} aria-labelledby={`${id}-title`}>
-      <div className="wrap case-grid">
-        <h2 className="case-h2" id={`${id}-title`}>
-          {title}
-        </h2>
-        <div className="case-body">{children}</div>
-      </div>
-    </section>
-  );
-}
 
 /** Two real screenshots side by side, labelled. Stacks on narrow screens. */
 function Compare({ pair, plain = false }: { pair: [Shot, Shot]; plain?: boolean }) {

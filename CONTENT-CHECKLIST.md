@@ -17,6 +17,8 @@ content still wrapped in `draft()` (none as of 25 November 2026).
   problems that functional tests did not catch; before-and-after measurements under matching conditions helped
   evaluate loading and memory improvements accurately.
 - ARC live site: https://arc-j11j.netlify.app/ and repository: https://github.com/DanPiress/ARC
+- Playtest Desk live demo: https://playtest-desk.netlify.app/ and repository: https://github.com/DanPiress/playtest-desk
+- Playtest Desk screenshots: captured from the fictional sample session on the deployed demo.
 - ARC facts, figures and dates: ARC's README, `qa/perf/PERFORMANCE-REPORT.md`, the briefs and `qa/logs/live-*.log`.
 
 ## Left out of the first release on purpose

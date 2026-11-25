@@ -2,7 +2,7 @@
 
 Usage (webapp-testing Python):  python scripts/qa_screens.py [base_url] [tag]
 Saves to qa/screenshots/<tag>/: <size>-<page>-first.png (first screen) and <size>-<page>-full.png (whole page),
-and desktop-spot-<view>.png for each spotlight view.
+<size>-playtest-entry.png for the new project card, and desktop-spot-<view>.png for each unchanged ARC spotlight view.
 """
 import pathlib, sys
 from playwright.sync_api import sync_playwright
@@ -19,7 +19,7 @@ SIZES = {
     "phone": dict(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True),
     "phone-small": dict(viewport={"width": 360, "height": 740}, device_scale_factor=2, is_mobile=True, has_touch=True),
 }
-PAGES = {"home": "/", "arc": "/work/arc/"}
+PAGES = {"home": "/", "arc": "/work/arc/", "playtest-desk": "/work/playtest-desk/"}
 
 problems = []
 with sync_playwright() as p:
@@ -46,9 +46,13 @@ with sync_playwright() as p:
             page.screenshot(path=str(OUT / f"{size}-{name}-full.png"), full_page=True)
             overflow = page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
             broken = page.evaluate("[...document.images].filter(i => i.complete && i.naturalWidth === 0).map(i => i.src)")
-            print(f"{size:12} {name:5} overflow={overflow}px errors={errors} broken={broken}")
+            print(f"{size:12} {name:13} overflow={overflow}px errors={errors} broken={broken}")
             if overflow or errors or broken:
                 problems.append((size, name, overflow, errors, broken))
+            if name == "home":
+                page.locator("article[aria-labelledby='entry-playtest-desk']").screenshot(
+                    path=str(OUT / f"{size}-playtest-entry.png")
+                )
             if size == "desktop" and name == "home":
                 for i, label in enumerate(["experience", "design", "build"]):
                     page.locator('[role="tab"]').nth(i).click()

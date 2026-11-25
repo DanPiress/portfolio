@@ -1,6 +1,5 @@
 # Netlify build settings. The site is static and needs no environment variables or API keys.
-# Pages are prerendered to real files (index.html, work/arc/index.html, 404.html), so no rewrite rules are needed:
-# /work/arc and /work/arc/ both serve the case study, and unknown addresses get 404.html.
+# Home, case studies and the 404 page are prerendered to real files, so no rewrite rules are needed.
 [build]
   command = "npm run build"
   publish = "dist"

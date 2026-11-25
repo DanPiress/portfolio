@@ -1,4 +1,4 @@
-import { about, links, process, projects, site, upcoming } from "../content";
+import { about, links, process, projects, site } from "../content";
 import { D, Footer, Header, Out } from "../components/ui";
 import { Spotlight } from "../components/Spotlight";
 import { ProjectEntry } from "../components/ProjectEntry";
@@ -43,26 +43,12 @@ export function Home() {
                 Selected work
               </h2>
               <p className="section-lede">
-                One finished project for now, presented in full. More will join it as they are ready.
+                A cinematic product site and a practical tool for game development.
               </p>
             </div>
             {projects.map((p) => (
               <ProjectEntry key={p.slug} project={p} />
             ))}
-            <aside className="bench" aria-labelledby="bench-title">
-              <h3 id="bench-title" className="bench-title">
-                On the workbench
-              </h3>
-              <ul className="bench-list">
-                {upcoming.map((u) => (
-                  <li key={u.title} className="bench-item">
-                    <span className="bench-name">{u.title}</span>
-                    <span className="bench-status">{u.status}</span>
-                    <D v={u.note} />
-                  </li>
-                ))}
-              </ul>
-            </aside>
           </div>
         </section>
 

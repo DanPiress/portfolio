@@ -9,10 +9,8 @@ const DIST = path.join(ROOT, "dist");
 const ssr = await import(pathToFileURL(path.join(ROOT, "dist-ssr/entry-server.js")).href);
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-const files = { home: "index.html", arc: "work/arc/index.html", notFound: "404.html" };
-
-for (const [key, file] of Object.entries(files)) {
-  const page = ssr.pages[key];
+for (const [key, page] of Object.entries(ssr.pages)) {
+  const file = page.path.slice(1) + (page.path.endsWith("/") ? "index.html" : "");
   const url = ssr.siteUrl;
   const head = [
     `<title>${esc(page.title)}</title>`,
@@ -23,13 +21,14 @@ for (const [key, file] of Object.entries(files)) {
     `<meta name="twitter:card" content="summary_large_image" />`,
   ];
   if (url && key !== "notFound") {
+    const share = page.share ?? { image: "/og/share.jpg", alt: "Daniel Pires portfolio, featuring the ARC controller concept." };
     head.push(
       `<link rel="canonical" href="${url}${page.path}" />`,
       `<meta property="og:url" content="${url}${page.path}" />`,
-      `<meta property="og:image" content="${url}/og/share.jpg" />`,
+      `<meta property="og:image" content="${url}${share.image}" />`,
       `<meta property="og:image:width" content="1200" />`,
       `<meta property="og:image:height" content="630" />`,
-      `<meta property="og:image:alt" content="Daniel Pires portfolio, featuring the ARC controller concept." />`,
+      `<meta property="og:image:alt" content="${esc(share.alt)}" />`,
     );
   }
   const target = path.join(DIST, file);

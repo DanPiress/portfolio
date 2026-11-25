@@ -17,7 +17,7 @@ export const site = {
   mark: "Daniel Pires",
   headline: ["Websites,", "games &", "interactive", "experiences."],
   intro:
-    "I make projects with AI and shape them through my own design decisions, reviews and testing. My first finished showcase is ARC, a launch site for a controller I invented.",
+    "I make projects with AI and shape them through my own design decisions, reviews and testing. Explore ARC, my gaming controller concept, and Playtest Desk, a tool for reviewing game feedback.",
   description:
     "Portfolio of Daniel Pires: websites, games and interactive experiences made with AI and shaped through design, testing and iteration.",
 };
@@ -66,9 +66,40 @@ export type Project = {
   role: string;
   ai: string;
   stack: string[];
-  links: { caseStudy?: string; live?: string; code?: string };
+  links: { caseStudy?: string; live?: string; liveLabel?: string; code?: string };
   views: View[];
 };
+
+export const playtestDesk = {
+  slug: "playtest-desk",
+  title: "Playtest Desk",
+  kind: "Game development tool",
+  year: "November 2026",
+  status: { label: "Live demo", live: true },
+  summary:
+    "A browser-based tool for turning raw playtest notes into issues you can review, track and export.",
+  brief:
+    "Give a game developer one place to capture tester feedback, check it against the original note and decide what to fix or follow up on.",
+  role:
+    "I set the direction for the playtest tool, requested fixes after the prototype and chose to publish a sample demo anyone could try.",
+  ai: "Claude Code built the app and its tests. Codex helped refine the review flow, test the sample build and publish it.",
+  stack: ["React", "TypeScript", "Vite", "Zod", "Playwright"],
+  links: {
+    caseStudy: "/work/playtest-desk/",
+    live: "https://playtest-desk.netlify.app/",
+    liveLabel: "Live demo",
+    code: "https://github.com/DanPiress/playtest-desk",
+  },
+  views: [
+    {
+      id: "desk",
+      label: "Workspace",
+      caption: "The demo opens on a fictional playtest, with sample notes and three issues to explore.",
+      alt: "Playtest Desk with sample tester notes on the left and a searchable issue list on the right.",
+      media: "playtest-main",
+    },
+  ],
+} satisfies Project;
 
 export const projects: Project[] = [
   {
@@ -123,15 +154,7 @@ export const projects: Project[] = [
       },
     ],
   },
-];
-
-/** Work I have not published yet. Shown in a compact note, never as finished projects. */
-export const upcoming: { title: string; status: string; note: Drafty }[] = [
-  {
-    title: "Playtest dashboard",
-    status: "Planned",
-    note: fact("A small app for organising game playtests and logging issues, with saved data and CSV export."),
-  },
+  playtestDesk,
 ];
 
 /** "How I work", each with a concrete example from ARC. This is a sequence, so it is numbered. */

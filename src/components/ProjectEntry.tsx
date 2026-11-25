@@ -1,13 +1,19 @@
 import type { Project } from "../content";
 import { Img, Out, type MediaId } from "./ui";
 
-/** Media shown in Selected work. Deliberately different from the spotlight's views, so the section adds something. */
+/** Media shown in Selected work. */
 const ENTRY_MEDIA: Record<string, { main: MediaId; mainAlt: string; phone?: MediaId; phoneAlt?: string }> = {
   arc: {
     main: "configurator",
     mainAlt: "ARC's finish configurator: a graphite controller on a dark stage, three finish swatches, a sample price and an Add to demo cart button.",
     phone: "config-phone",
     phoneAlt: "The configurator on a phone-sized screen, with the turntable above the finish choices.",
+  },
+  "playtest-desk": {
+    main: "playtest-main",
+    mainAlt: "The Playtest Desk workspace with sample tester notes beside a list of issues and status filters.",
+    phone: "playtest-phone",
+    phoneAlt: "The Playtest Desk note form on a phone-sized screen.",
   },
 };
 
@@ -59,12 +65,12 @@ export function ProjectEntry({ project: p }: { project: Project }) {
           )}
           {p.links.live && (
             <Out className="link-out" href={p.links.live}>
-              Live website
+              {p.links.liveLabel ?? "Live website"}
             </Out>
           )}
           {p.links.code && (
             <Out className="link-out" href={p.links.code}>
-              Code
+              Code on GitHub
             </Out>
           )}
         </div>

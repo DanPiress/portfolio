@@ -2,8 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
 
-// Two real pages: / and /work/arc/. Each is prerendered to static HTML by scripts/prerender.mjs after the build,
-// so direct links and reloads work on any static host without rewrite rules.
+// These routes are prerendered to static HTML so direct links and reloads need no rewrite rules.
 export default defineConfig({
   appType: "mpa",
   plugins: [react()],
@@ -12,6 +11,7 @@ export default defineConfig({
       input: {
         home: resolve(import.meta.dirname, "index.html"),
         arc: resolve(import.meta.dirname, "work/arc/index.html"),
+        playtestDesk: resolve(import.meta.dirname, "work/playtest-desk/index.html"),
         notFound: resolve(import.meta.dirname, "404.html"),
       },
     },

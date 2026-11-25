@@ -1,0 +1,28 @@
+{
+  "playtest-main": {
+    "width": 1440,
+    "height": 900,
+    "files": [
+      { "w": 1440, "file": "/media/playtest-desk/main-1440.webp" },
+      { "w": 960, "file": "/media/playtest-desk/main-960.webp" },
+      { "w": 640, "file": "/media/playtest-desk/main-640.webp" }
+    ]
+  },
+  "playtest-review": {
+    "width": 1440,
+    "height": 900,
+    "files": [
+      { "w": 1440, "file": "/media/playtest-desk/review-1440.webp" },
+      { "w": 960, "file": "/media/playtest-desk/review-960.webp" },
+      { "w": 640, "file": "/media/playtest-desk/review-640.webp" }
+    ]
+  },
+  "playtest-phone": {
+    "width": 390,
+    "height": 844,
+    "files": [
+      { "w": 390, "file": "/media/playtest-desk/main-phone-390.webp" },
+      { "w": 260, "file": "/media/playtest-desk/main-phone-260.webp" }
+    ]
+  }
+}

@@ -1,12 +1,19 @@
 """Functional checks for the portfolio. Usage (webapp-testing Python):  python scripts/qa_portfolio.py [base_url]
 
-Covers the spotlight (mouse, keyboard, touch tap and swipe, reduced motion), links, the case study (direct load,
-reload, deep link, Back), focus visibility, a failed image, the page without JavaScript, page errors and transfer size.
+Covers the ARC spotlight (mouse, keyboard, touch tap and swipe, reduced motion), both project cards and case
+studies (direct load, reload, deep links, Back), links, focus visibility, a failed image, the page without JavaScript,
+page errors and transfer size.
 """
 import re, sys, urllib.request
 from playwright.sync_api import sync_playwright
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://localhost:4180").rstrip("/")
+PLAYTEST_PATH = "/work/playtest-desk/"
+PLAYTEST_LINKS = {
+    "Live demo": "https://playtest-desk.netlify.app/",
+    "Code on GitHub": "https://github.com/DanPiress/playtest-desk",
+}
+PLAYTEST_ANCHORS = ["brief", "review", "build", "testing"]
 results = []
 
 
@@ -34,6 +41,14 @@ def visible_view(page):
     return page.evaluate("""[...document.querySelectorAll('.spot-view')].map(v => getComputedStyle(v).opacity === '1' && getComputedStyle(v).visibility === 'visible')""")
 
 
+def entry(page, slug):
+    return page.locator(f"article[aria-labelledby='entry-{slug}']")
+
+
+def no_overflow(page):
+    return page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1")
+
+
 with sync_playwright() as p:
     b = p.chromium.launch(headless=True)
 
@@ -54,6 +69,17 @@ with sync_playwright() as p:
     print(f"     transfer after the other spotlight views warm up: {after_idle/1024:.0f} KB")
 
     check("Home title and h1", page.title().startswith("Daniel Pires") and "Websites" in page.locator("h1").inner_text())
+    playtest = entry(page, "playtest-desk")
+    check("Selected work includes one Playtest Desk article with its labelled heading",
+          playtest.count() == 1 and playtest.locator("h3#entry-playtest-desk").inner_text() == "Playtest Desk")
+    check("Playtest Desk has its own case-study link",
+          playtest.locator(f"a[href='{PLAYTEST_PATH}']").count() == 1)
+    for label, href in PLAYTEST_LINKS.items():
+        check(f"Playtest Desk card has the {label} link",
+              playtest.get_by_role("link", name=label, exact=True).get_attribute("href") == href)
+    check("Playtest Desk is no longer listed as planned work",
+          not page.locator(".bench-item").filter(has_text=re.compile(r"playtest", re.I)).count())
+    check("Homepage has no horizontal overflow", no_overflow(page))
     check("ARC spotlight image visible on the first screen",
           page.locator(".spot-view[data-pos=on] img").first.bounding_box()["y"] < 900)
     check("Spotlight starts on Experience", selected(page) == 0)
@@ -120,14 +146,25 @@ with sync_playwright() as p:
     page.goto(BASE + "/", wait_until="networkidle")
     page.evaluate("window.scrollTo(0, 1200)")
     page.wait_for_timeout(300)
-    page.locator(".entry a", has_text="case study").click()
+    arc_link = entry(page, "arc").locator("a", has_text="case study")
+    arc_link.scroll_into_view_if_needed()
+    before_back = page.evaluate("scrollY")
+    arc_link.click()
     page.wait_for_load_state("networkidle")
     check("Case study link opens /work/arc/", page.url.endswith("/work/arc/") and page.locator("h1").inner_text() == "ARC")
     page.go_back()
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(300)
     y = page.evaluate("scrollY")
-    check("Back returns to the homepage at the same position", page.url.rstrip("/") == BASE and abs(y - 1200) < 120, f"y={y}")
+    check("Back returns to the homepage at the same position", page.url.rstrip("/") == BASE and abs(y - before_back) < 120,
+          f"y={y}, before={before_back}")
+
+    entry(page, "playtest-desk").locator(f"a[href='{PLAYTEST_PATH}']").click()
+    page.wait_for_load_state("networkidle")
+    check("Playtest Desk card opens its own case study",
+          page.url.endswith(PLAYTEST_PATH) and page.locator("h1").inner_text() == "Playtest Desk")
+    page.go_back(wait_until="networkidle")
+    check("Back from Playtest Desk returns to the homepage", page.url.rstrip("/") == BASE)
 
     page2 = ctx.new_page()
     errs2 = watch(page2)
@@ -151,9 +188,33 @@ with sync_playwright() as p:
     check("About in the case-study header goes to the homepage section", page2.url.endswith("/#about"))
     check("No page errors or warnings on the case study", not errs2, str(errs2))
 
-    # Every link on both pages: internal targets exist, external ones answer.
+    # Playtest Desk's independent route, status, reload and all section deep links.
+    page4 = ctx.new_page()
+    errs4 = watch(page4)
+    r = page4.goto(BASE + PLAYTEST_PATH, wait_until="networkidle")
+    check("Direct load of Playtest Desk returns 200 with its own title",
+          r.status == 200 and page4.title().startswith("Playtest Desk case study")
+          and page4.locator("h1").inner_text() == "Playtest Desk")
+    check("Playtest Desk case study is labelled Live demo",
+          page4.locator(".status").filter(has_text=re.compile(r"^Live demo$", re.I)).count() == 1)
+    check("Playtest Desk case study links to the live demo and repository",
+          page4.get_by_role("link", name="Live demo", exact=True).first.get_attribute("href") == PLAYTEST_LINKS["Live demo"]
+          and page4.get_by_role("link", name="Code on GitHub", exact=True).first.get_attribute("href") == PLAYTEST_LINKS["Code on GitHub"])
+    page4.reload(wait_until="networkidle")
+    check("Reload keeps the Playtest Desk case study", page4.locator("h1").inner_text() == "Playtest Desk")
+    for target in PLAYTEST_ANCHORS:
+        check(f"Playtest Desk has a section and navigation link for #{target}",
+              page4.locator(f"section#{target}").count() == 1 and page4.locator(f"a[href='#{target}']").count() >= 1)
+        page4.goto(BASE + PLAYTEST_PATH + "#" + target, wait_until="networkidle")
+        page4.wait_for_timeout(600)
+        top = page4.locator(f"#{target}").evaluate("e => e.getBoundingClientRect().top")
+        check(f"Playtest Desk direct deep link lands on #{target}", -5 < top < 180, f"top={top:.0f}")
+    check("Playtest Desk has no horizontal overflow", no_overflow(page4))
+    check("No page errors or warnings on Playtest Desk", not errs4, str(errs4))
+
+    # Every link on all three pages: internal targets exist, external ones answer.
     hrefs = set()
-    for path in ["/", "/work/arc/"]:
+    for path in ["/", "/work/arc/", PLAYTEST_PATH]:
         page.goto(BASE + path, wait_until="networkidle")
         for h in page.evaluate("[...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'))"):
             hrefs.add((path + h) if h.startswith("#") else h)
@@ -228,6 +289,19 @@ with sync_playwright() as p:
     small = page.evaluate("""[...document.querySelectorAll('a, button, summary')].filter(e => { const r = e.getBoundingClientRect();
         return r.width > 0 && r.height > 0 && r.height < 44 && !e.closest('.chip'); }).map(e => e.textContent.trim().slice(0, 24))""")
     check("Phone: every link and button is at least 44 px tall", not small, str(small))
+    check("Phone: Playtest Desk card has its case study, live demo and repository links",
+          entry(page, "playtest-desk").locator(".entry-links a").count() == 3)
+    check("Phone: homepage has no horizontal overflow", no_overflow(page))
+    phone_case_link = entry(page, "playtest-desk").locator(f"a[href='{PLAYTEST_PATH}']")
+    phone_case_link.scroll_into_view_if_needed()
+    phone_case_link.tap()
+    page.wait_for_url(BASE + PLAYTEST_PATH, wait_until="networkidle")
+    check("Phone: Playtest Desk case study opens from its card",
+          page.url.endswith(PLAYTEST_PATH) and page.locator("h1").inner_text() == "Playtest Desk")
+    check("Phone: Playtest Desk case study has no horizontal overflow", no_overflow(page))
+    toc_heights = page.locator(".case-toc a").evaluate_all("links => links.map(a => a.getBoundingClientRect().height)")
+    check("Phone: Playtest Desk section navigation has 44 px touch targets",
+          len(toc_heights) >= len(PLAYTEST_ANCHORS) and min(toc_heights) >= 44, str(toc_heights))
     check("Phone: no page errors", not errs, str(errs))
     ctx.close()
 
@@ -252,9 +326,19 @@ with sync_playwright() as p:
     page.goto(BASE + "/work/arc/", wait_until="load")
     check("Without JavaScript the case study is readable (prerendered)",
           page.locator("h1").inner_text() == "ARC" and page.locator(".decision").count() == 3)
+    r = page.goto(BASE + PLAYTEST_PATH, wait_until="load")
+    check("Without JavaScript Playtest Desk loads directly as a readable case study",
+          r.status == 200 and page.locator("h1").inner_text() == "Playtest Desk"
+          and all(page.locator(f"section#{target}").count() == 1 for target in PLAYTEST_ANCHORS))
+    page.reload(wait_until="load")
+    check("Without JavaScript reloading Playtest Desk preserves its content",
+          page.locator("h1").inner_text() == "Playtest Desk")
     page.goto(BASE + "/", wait_until="load")
     check("Without JavaScript the homepage shows the spotlight image and links",
           page.locator(".spot-view[data-pos=on] img").count() >= 1 and page.locator(".spot-links a").count() == 3)
+    check("Without JavaScript the Playtest Desk card and links remain available",
+          entry(page, "playtest-desk").locator(f"a[href='{PLAYTEST_PATH}']").count() == 1
+          and all(entry(page, "playtest-desk").locator(f"a[href='{href}']").count() == 1 for href in PLAYTEST_LINKS.values()))
     ctx.close()
     b.close()
 
