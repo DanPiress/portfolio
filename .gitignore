@@ -16,7 +16,6 @@ dist-ssr/
 # Local check output and working files
 qa/screenshots/
 qa/logs/
-work/
 __pycache__/
 *.pyc
 
