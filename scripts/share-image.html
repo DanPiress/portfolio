@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Template for public/og/share.jpg (1200x630). Render: python scripts/render_share_image.py -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: "Bricolage"; src: url("../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; }
+  @font-face { font-family: "DM Sans"; src: url("../node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 100 1000; }
+  html, body { margin: 0; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden; position: relative;
+    background: #F5F4EF; color: #0D182B; font-family: "DM Sans", sans-serif;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(#0D182B14 1px, transparent 1px), linear-gradient(90deg, #0D182B14 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: linear-gradient(100deg, transparent 30%, #000 80%);
+  }
+  .copy { position: absolute; left: 72px; top: 64px; width: 520px; }
+  .mark { font-family: "Bricolage"; font-weight: 700; font-size: 30px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 12px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; background: #F2694E; }
+  h1 { font-family: "Bricolage"; font-weight: 800; font-size: 74px; line-height: 0.98; letter-spacing: -0.035em; margin: 56px 0 0; }
+  .sub { font-size: 25px; line-height: 1.35; color: #5B6472; margin: 34px 0 0; width: 470px; }
+  .frame {
+    position: absolute; left: 640px; top: 118px; width: 620px;
+    border: 10px solid #0D182B; border-radius: 18px; overflow: hidden; background: #0D182B;
+    box-shadow: 0 30px 60px -20px #0D182B66;
+  }
+  .frame img { display: block; width: 100%; }
+  .tag {
+    position: absolute; left: 612px; top: 476px; background: #F2694E; color: #0D182B;
+    font-family: "Bricolage"; font-weight: 700; font-size: 24px; padding: 12px 20px; border-radius: 12px;
+    box-shadow: 0 4px 0 #0D182B;
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="copy">
+    <div class="mark"><span class="dot"></span>Daniel Pires</div>
+    <h1>Websites, games &amp; interactive experiences.</h1>
+    <p class="sub">Portfolio and case study of ARC, a launch website for an original controller.</p>
+  </div>
+  <div class="frame"><img src="../public/media/arc/experience-960.webp" alt="" /></div>
+  <div class="tag">ARC case study</div>
+</body>
+</html>
